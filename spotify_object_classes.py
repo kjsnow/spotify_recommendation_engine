@@ -28,14 +28,15 @@ def get_search_uri(search_term, search_type):
 
 class Spotify_Object():
 
-    def __init__(self, search_term, type):
+    def __init__(self, search_term, type, limit=1):
         self.search_term    = search_term
         self.type           = type
+        self.limit          = limit
         self.spotify_object = self.get_spotify_object()
 
     # getters
     def get_spotify_object(self):
-        return sp.search(q=self.search_term, type=self.type, limit=1)
+        return sp.search(q=self.search_term, type=self.type, limit=self.limit)
 
     # getters
     def get_attribute(self, attribute_name):
@@ -55,9 +56,10 @@ class Spotify_Object():
 
 class Artist(Spotify_Object):
 
-    def __init__(self, artist_name):
+    def __init__(self, artist_name, limit=1):
         self.search_term    = artist_name
         self.type           = 'artist'
+        self.limit          = limit
         self.spotify_object = self.get_spotify_object()
         self.artist_name    = self.get_attribute(attribute_name='name')
         self.external_urls  = self.get_attribute(attribute_name='external_urls')
@@ -74,9 +76,10 @@ class Artist(Spotify_Object):
 
 class Track(Spotify_Object):
 
-    def __init__(self, track_name):
+    def __init__(self, track_name, limit=1):
         self.search_term       = track_name
         self.type              = 'track'
+        self.limit             = limit
         self.spotify_object    = self.get_spotify_object()
         self.track_name        = self.get_attribute(attribute_name='name')
         self.album             = self.get_attribute(attribute_name='album')
@@ -94,14 +97,37 @@ class Track(Spotify_Object):
         self.preview_url       = self.get_attribute(attribute_name='preview_url')
         self.track_number      = self.get_attribute(attribute_name='track_number')
         self.uri               = self.get_attribute(attribute_name='uri')
+        self.features          = self.get_features()
+
+    # getters
+    def get_features(self):
+        # Neglecting to return type, uri, track_href, analysis_url. Not needed for analysis
+        features_of_interest = [
+            'id',
+            'acousticness',
+            'danceability',
+            'duration_ms',
+            'energy',
+            'instrumentalness',
+            'key',
+            'liveness',
+            'loudness',
+            'mode',
+            'speechiness',
+            'tempo',
+            'time_signature',
+            'valence']
+        track_audio_features = sp.audio_features(self.uri)
+        return {k: track_audio_features[0][k] for k in features_of_interest}
 
 
 
 class Album(Spotify_Object):
 
-    def __init__(self, album_name):
+    def __init__(self, album_name, limit=1):
         self.search_term            = album_name
         self.type                   = 'album'
+        self.limit                  = limit
         self.spotify_object         = self.get_spotify_object()
         self.album_name             = self.get_attribute(attribute_name='name')
         self.album_type             = self.get_attribute(attribute_name='album_type')
@@ -117,4 +143,5 @@ class Album(Spotify_Object):
         self.uri                    = self.get_attribute(attribute_name='uri')
 
 
-class Playlist:
+
+
