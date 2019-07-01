@@ -29,18 +29,26 @@ def get_search_uri(search_term, search_type):
 class Spotify_Object():
 
     def __init__(self, search_term, type, limit=1):
-        self.search_term    = search_term
-        self.type           = type
-        self.limit          = limit
-        self.spotify_object = self.get_spotify_object()
+        self._search_term    = search_term
+        self._type           = type
+        self._limit          = limit
 
-    # getters
-    def get_spotify_object(self):
-        return sp.search(q=self.search_term, type=self.type, limit=self.limit)
+    @property
+    def spotify_object(self):
+        #return self._spotify_object
+        return sp.search(q=self._search_term, type=self._type, limit=self._limit)
+
+    #@spotify_object.setter
+    #def spotify_object(self):
+        # result = sp.search(q=self.search_term, type=self.type, limit=self.limit)
+        # if len(result['tracks']['items']) == 0:
+        #     print("No results found, try again.")
+        # else: self._spotify_object = result
+
 
     # getters
     def get_attribute(self, attribute_name):
-        items = self.spotify_object[self.type + 's']['items'][0][attribute_name]
+        items = self.spotify_object[self._type + 's']['items'][0][attribute_name]
         if attribute_name == 'followers':
             return items['total']
         elif attribute_name == 'external_urls':
@@ -57,11 +65,11 @@ class Spotify_Object():
 class Artist(Spotify_Object):
 
     def __init__(self, artist_name, limit=1):
-        self.search_term    = artist_name
-        self.type           = 'artist'
-        self.limit          = limit
-        self.spotify_object = self.get_spotify_object()
-        self.artist_name    = self.get_attribute(attribute_name='name')
+        self._search_term    = artist_name
+        self._type           = 'artist'
+        self._limit          = limit
+        #self.spotify_object = self.get_spotify_object()
+        #self.artist_name    = self.get_attribute(attribute_name='name')
         self.external_urls  = self.get_attribute(attribute_name='external_urls')
         self.followers      = self.get_attribute(attribute_name='followers')
         self.genres         = self.get_attribute(attribute_name='genres')
@@ -69,6 +77,10 @@ class Artist(Spotify_Object):
         self.id             = self.get_attribute(attribute_name='id')
         self.images         = self.get_attribute(attribute_name='images')
         self.uri            = self.get_attribute(attribute_name='uri')
+
+    @property
+    def artist_name(self):
+        return self.get_attribute(attribute_name='name')
 
     def print_id(self):
         print(self.id)
