@@ -26,16 +26,16 @@ def get_search_uri(search_term, search_type):
     return result[search_type+'s']['items'][0]['id']
 
 
-class Spotify_Object():
+class SpotifyObject():
 
     def __init__(self, search_term, type, limit=1):
         self._search_term    = search_term
         self._type           = type
         self._limit          = limit
+        #self._spotify_object = self.spotify_object # Do I handle no results here or add logic outside of this???
 
     @property
-    def spotify_object(self):
-        #return self._spotify_object
+    def _spotify_object(self):
         return sp.search(q=self._search_term, type=self._type, limit=self._limit)
 
     #@spotify_object.setter
@@ -45,21 +45,28 @@ class Spotify_Object():
         #     print("No results found, try again.")
         # else: self._spotify_object = result
 
+    @property
+    def _artist_name(self):
+        self._spotify_object[self._type + 's']['items'][0]['name']
+
+    @property
+    def _followers(self):
+        return self._spotify_object[self._type + 's']['items'][0]['followers']['total']
 
     # getters
-    def get_attribute(self, attribute_name):
-        items = self.spotify_object[self._type + 's']['items'][0][attribute_name]
-        if attribute_name == 'followers':
-            return items['total']
-        elif attribute_name == 'external_urls':
-            return items['spotify']
-        elif attribute_name == 'album':
-            return Album(items['name'])
-        elif attribute_name == 'artists':
-            return Artist(items[0]['name'])
-        elif attribute_name == 'external_ids':
-            return items['isrc']
-        else: return items
+    # def get_attribute(self, attribute_name):
+    #     items = self.spotify_object[self._type + 's']['items'][0][attribute_name]
+    #     if attribute_name == 'followers':
+    #         return items['total']
+    #     elif attribute_name == 'external_urls':
+    #         return items['spotify']
+    #     elif attribute_name == 'album':
+    #         return Album(items['name'])
+    #     elif attribute_name == 'artists':
+    #         return Artist(items[0]['name'])
+    #     elif attribute_name == 'external_ids':
+    #         return items['isrc']
+    #     else: return items
 
 
 class Artist(Spotify_Object):
@@ -68,19 +75,26 @@ class Artist(Spotify_Object):
         self._search_term    = artist_name
         self._type           = 'artist'
         self._limit          = limit
+
         #self.spotify_object = self.get_spotify_object()
         #self.artist_name    = self.get_attribute(attribute_name='name')
-        self.external_urls  = self.get_attribute(attribute_name='external_urls')
-        self.followers      = self.get_attribute(attribute_name='followers')
-        self.genres         = self.get_attribute(attribute_name='genres')
-        self.href           = self.get_attribute(attribute_name='href')
-        self.id             = self.get_attribute(attribute_name='id')
-        self.images         = self.get_attribute(attribute_name='images')
-        self.uri            = self.get_attribute(attribute_name='uri')
+        # self.external_urls  = self.get_attribute(attribute_name='external_urls')
+        #self.followers      = self.get_attribute(attribute_name='followers')
+        # self.genres         = self.get_attribute(attribute_name='genres')
+        # self.href           = self.get_attribute(attribute_name='href')
+        # self.id             = self.get_attribute(attribute_name='id')
+        # self.images         = self.get_attribute(attribute_name='images')
+        # self.uri            = self.get_attribute(attribute_name='uri')
+
 
     @property
-    def artist_name(self):
-        return self.get_attribute(attribute_name='name')
+    def artist_name(self, allowable=True):
+        return super().artist_name(self, allowable)
+
+    @property
+    def followers(self, allowable=True):
+        return super(Artist, self).followers
+
 
     def print_id(self):
         print(self.id)
