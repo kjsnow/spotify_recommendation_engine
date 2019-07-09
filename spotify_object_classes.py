@@ -75,28 +75,8 @@ class Artist(SpotifyObject):
         super().__init__(search_term, type, limit)
         self.__items_root    = self._spotify_object[self._type + 's']['items'][0]
 
-    # INHERITED PROPERTIES FROM SpotifyObject
-    @property
-    def _spotify_object(self):
-        return super()._spotify_object
-    @property
-    def _name(self):
-        return super()._name
-    @property
-    def _external_urls(self):
-        return super()._external_urls
-    @property
-    def _href(self):
-        return super()._href
-    @property
-    def _id(self):
-        return super()._id
-    @property
-    def _images(self):
-        return super()._images
-    @property
-    def _uri(self):
-        return super()._uri
+    # INHERITED PROPERTIES FROM SpotifyObject:
+    # _spotify_object, _name, _external_urls, _href, _id, _images, _uri
 
     # ARTIST ONLY PROPERTIES
     @property
@@ -116,22 +96,8 @@ class Track(SpotifyObject):
         super().__init__(search_term, type, limit)
         self.__items_root    = self._spotify_object[self._type + 's']['items'][0]
 
-    # INHERITED PROPERTIES FROM SpotifyObject
-    @property
-    def _spotify_object(self):
-        return super()._spotify_object
-    @property
-    def _name(self):
-        return super()._name
-    @property
-    def _artists(self):
-        return super()._artists
-    @property
-    def _available_markets(self):
-        return super()._available_markets
-    @property
-    def _uri(self):
-        return super()._uri
+    # INHERITED PROPERTIES FROM SpotifyObject:
+    # _spotify_object, _name, _artists, _available_markets, _uri
 
     # TRACK ONLY PROPERTIES
     @property
@@ -148,24 +114,23 @@ class Track(SpotifyObject):
         return self.__items_root['duration_ms']
     @property
     def _explicit(self):
-        return self.__items_root['_explicit']
+        return self.__items_root['explicit']
     @property
     def _is_local(self):
-        return self.__items_root['_is_local']
+        return self.__items_root['is_local']
     @property
     def _popularity(self):
-        return self.__items_root['_popularity']
+        return self.__items_root['popularity']
     @property
     def _preview_url(self):
-        return self.__items_root['_preview_url']
+        return self.__items_root['preview_url']
     @property
     def _track_number(self):
-        return self.__items_root['_track_number']
+        return self.__items_root['track_number']
     @property
     def _features(self):
-        # Neglecting to return type, uri, track_href, analysis_url. Not needed for analysis
+        # Neglecting to return id, type, uri, track_href, analysis_url. Not needed for analysis
         features_of_interest = [
-            'id',
             'acousticness',
             'danceability',
             'duration_ms',
@@ -189,48 +154,22 @@ class Album(SpotifyObject):
         super().__init__(search_term, type, limit)
         self.__items_root    = self._spotify_object[self._type + 's']['items'][0]
 
-    # INHERITED PROPERTIES FROM SpotifyObject
-    @property
-    def _spotify_object(self):
-        return super()._spotify_object
-    @property
-    def _name(self):
-        return super()._name
-    @property
-    def _artists(self):
-        return super()._artists
-    @property
-    def _available_markets(self):
-        return super()._available_markets
-    @property
-    def _external_urls(self):
-        return super()._external_urls
-    @property
-    def _href(self):
-        return super()._href
-    @property
-    def _id(self):
-        return super()._id
-    @property
-    def _images(self):
-        return super()._images
-    @property
-    def _uri(self):
-        return super()._uri
+    # INHERITED PROPERTIES FROM SpotifyObject:
+    # _spotify_object, _name, _artists, _available_markets, _external_urls, _href, _id, _images, _uri
 
     # ALBUM ONLY PROPERTIES
     @property
     def _album_type(self):
-        return self.__items_root['_album_type']
+        return self.__items_root['album_type']
     @property
     def _release_date(self):
-        return self.__items_root['_release_date']
+        return self.__items_root['release_date']
     @property
     def _release_date_precision(self):
-        return self.__items_root['_release_date_precision']
+        return self.__items_root['release_date_precision']
     @property
     def _total_tracks(self):
-        return self.__items_root['_total_tracks']
+        return self.__items_root['total_tracks']
 
 
 
