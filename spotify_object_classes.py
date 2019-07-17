@@ -4,14 +4,14 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import spotipy.util as util
 import pprint
-import plotly.plotly as py
+import chart_studio.plotly as py
 import plotly.graph_objs as go
 import plotly
 import matplotlib
 from operator import itemgetter
 
 # plotly api key
-plotly.tools.set_credentials_file(username='kjsnow11', api_key='CdXOsPqwq2G3aMCiHpjJ')
+#plotly.tools.set_credentials_file(username='kjsnow11', api_key='CdXOsPqwq2G3aMCiHpjJ')
 
 # spotify creds
 client_id = '2d0cc7a4ed9d44a69c9ad358b216dd7e'
@@ -170,6 +170,7 @@ class Album(SpotifyObject):
     @property
     def _total_tracks(self):
         return self.__items_root['total_tracks']
+
 
 
 
