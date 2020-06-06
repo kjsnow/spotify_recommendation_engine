@@ -59,7 +59,8 @@ class Spotify_Object():
             return Artist(items[0]['name'])
         elif attribute_name == 'external_ids':
             return items['isrc']
-        else: return items
+        else:
+            return items
 
 
 class Artist(Spotify_Object):
