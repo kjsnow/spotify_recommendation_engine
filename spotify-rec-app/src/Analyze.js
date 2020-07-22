@@ -22,6 +22,7 @@ function Artist(props) {
   
   if (currentResult?.name) {
     
+    console.log(currentResult.name)
     console.log(currentResult.genres)
     // var jsonGenres = JSON.parse(currentResult.genres);
     // for (var i = 0; i < jsonGenres.genres.length; i++) {
@@ -29,14 +30,20 @@ function Artist(props) {
     //     console.log(genre);
     // }
     
-    let genres = currentResult.genres[0].map((genre, index) =>
-      <p key={index}> {genre} </p>)
+    const genres = currentResult.genres.map((genre, index) =>
+      <p key={index}> {genre} </p>
+    )
+    
+    // const images = currentResult.images.map((image, index) =>
+    //   <p key={index}> {image} </p>
+    // )
     
     return (
       <div>
         <p>Artist Name: {currentResult.name}</p>
         <p>Followers: {currentResult.followers}</p>
         {genres}
+        <img src={currentResult.images[0].url} />
       </div>
 
       )
@@ -58,13 +65,11 @@ function Analyze() {
     fetch('/api/analyze?artist='+currentSearch)
       .then(res => res.json())
       .then(data => {
-        // setResult({
-        //         artist: data
-        //       });
       setResult({
         name: data.name,
         followers: data.followers,
-        genres: [data.genres],
+        genres: data.genres,
+        images: data.images,
       });
       })
   }
