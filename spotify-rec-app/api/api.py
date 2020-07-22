@@ -5,7 +5,8 @@ from .models.todo_model import Schema
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import spotipy.util as util
-from spotify_object_classes import Spotify_Object, Artist
+from .spotify_object_classes import Spotify_Object, Artist
+from .config import config as c
 
 app = Flask(__name__)
 
@@ -13,19 +14,26 @@ app = Flask(__name__)
 def get_current_time():
     return{'time': time.time()}
 
-@app.route('/analyze')
-def hello_world():
-    client_id = '2d0cc7a4ed9d44a69c9ad358b216dd7e'
-    client_secret = 'bc85301ff7114dca9f2a195804b16ddc'
+@app.route('/api/analyze')
+def artist_search():
 
-    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-    artist = 'artist'
+    # client_id = c.SpotifyCreds.SPOTIFY_CLIENT_ID
+    # client_secret = c.SpotifyCreds.SPOTIFY_CLIENT_SECRET
+    # client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+    # sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-    return{'result': 'hello world!'}
+    if 'artist' not in request.args or len(request.args['artist']) == 0:
+        return {'result': "Error: No Artist Entered."}
 
+    artist_to_search = request.args['artist']
+    #artist_to_search = 'Fleetwood Mac'
+    search_result = Artist(artist_to_search)
 
-
+    # return {'artist': search_result}
+    return {'name': search_result.artist_name,
+            'followers': search_result.followers,
+            'genres': search_result.genres,
+            }
 
 
 @app.route('/todo', methods=['POST'])

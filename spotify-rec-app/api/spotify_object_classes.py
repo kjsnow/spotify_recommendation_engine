@@ -4,14 +4,13 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import spotipy.util as util
 import pprint
-import plotly.plotly as py
-import plotly.graph_objs as go
+#import plotly as py
 import plotly
 import matplotlib
 from operator import itemgetter
 
 # plotly api key
-plotly.tools.set_credentials_file(username='kjsnow11', api_key='CdXOsPqwq2G3aMCiHpjJ')
+#plotly.tools.set_credentials_file(username='kjsnow11', api_key='CdXOsPqwq2G3aMCiHpjJ')
 
 # spotify creds
 client_id = '2d0cc7a4ed9d44a69c9ad358b216dd7e'
@@ -65,23 +64,32 @@ class Spotify_Object():
 
 class Artist(Spotify_Object):
 
-    def __init__(self, artist_name, limit=1):
-        self._search_term    = artist_name
+    def __init__(self, search_artist_name, limit=1):
+        self._search_term    = search_artist_name
         self._type           = 'artist'
         self._limit          = limit
         #self.spotify_object = self.get_spotify_object()
         #self.artist_name    = self.get_attribute(attribute_name='name')
-        self.external_urls  = self.get_attribute(attribute_name='external_urls')
-        self.followers      = self.get_attribute(attribute_name='followers')
-        self.genres         = self.get_attribute(attribute_name='genres')
-        self.href           = self.get_attribute(attribute_name='href')
-        self.id             = self.get_attribute(attribute_name='id')
-        self.images         = self.get_attribute(attribute_name='images')
-        self.uri            = self.get_attribute(attribute_name='uri')
+        self._name           = self.get_attribute(attribute_name='name')
+        self.external_urls   = self.get_attribute(attribute_name='external_urls')
+        self._followers      = self.get_attribute(attribute_name='followers')
+        self._genres          = self.get_attribute(attribute_name='genres')
+        self.href            = self.get_attribute(attribute_name='href')
+        self.id              = self.get_attribute(attribute_name='id')
+        self.images          = self.get_attribute(attribute_name='images')
+        self.uri             = self.get_attribute(attribute_name='uri')
 
     @property
     def artist_name(self):
-        return self.get_attribute(attribute_name='name')
+        return self._name
+
+    @property
+    def followers(self):
+        return self._followers
+
+    @property
+    def genres(self):
+        return self._genres
 
     def print_id(self):
         print(self.id)

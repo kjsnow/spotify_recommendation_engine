@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && spotify-env/bin/flask run --no-debugger",
+    "start-api": "cd api && app-env/bin/flask run --no-debugger",
     "run-app": "yarn start && yarn start-api",
     "build": "react-scripts build",
     "test": "react-scripts test",
