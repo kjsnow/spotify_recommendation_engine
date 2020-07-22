@@ -4,7 +4,7 @@
 
 
 # Pycache files
-*.pyc
+#*.pyc
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
