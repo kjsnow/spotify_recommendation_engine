@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/pycharm+all,jupyternotebooks
 # Edit at https://www.gitignore.io/?templates=pycharm+all,jupyternotebooks
 
+
+# Pycache files
+*.pyc
+
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
