@@ -33,6 +33,7 @@ def artist_search():
     return {'name': search_result.artist_name,
             'followers': search_result.followers,
             'genres': search_result.genres,
+            'images': search_result.images,
             }
 
 
