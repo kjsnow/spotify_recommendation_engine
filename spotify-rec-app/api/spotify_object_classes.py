@@ -76,7 +76,7 @@ class Artist(Spotify_Object):
         self._genres          = self.get_attribute(attribute_name='genres')
         self.href            = self.get_attribute(attribute_name='href')
         self.id              = self.get_attribute(attribute_name='id')
-        self.images          = self.get_attribute(attribute_name='images')
+        self._images          = self.get_attribute(attribute_name='images')
         self.uri             = self.get_attribute(attribute_name='uri')
 
     @property
@@ -90,6 +90,10 @@ class Artist(Spotify_Object):
     @property
     def genres(self):
         return self._genres
+
+    @property
+    def images(self):
+        return self._images
 
     def print_id(self):
         print(self.id)
