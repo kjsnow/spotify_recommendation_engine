@@ -22,17 +22,11 @@ function Artist(props) {
   
   if (currentResult?.name) {
     
-    console.log(currentResult.name)
-    console.log(currentResult.genres)
-    // var jsonGenres = JSON.parse(currentResult.genres);
-    // for (var i = 0; i < jsonGenres.genres.length; i++) {
-    //     var genre = jsonGenres.genres[i];
-    //     console.log(genre);
-    // }
-    
     const genres = currentResult.genres.map((genre, index) =>
       <p key={index}> {genre} </p>
     )
+    
+    const image_url = currentResult.images[0].url
     
     // const images = currentResult.images.map((image, index) =>
     //   <p key={index}> {image} </p>
@@ -43,22 +37,34 @@ function Artist(props) {
         <p>Artist Name: {currentResult.name}</p>
         <p>Followers: {currentResult.followers}</p>
         {genres}
-        <img src={currentResult.images[0].url} />
+        <img src={image_url} />
       </div>
 
       )
   } else {
     return(
-      <p>No artist entered.</p>
+      <div>
+        <p>No artist entered.</p>
+        <img src={logo} className="App-logo" alt="logo" />
+      </div>
     )
   }
 }
 
 
 function Analyze() {
+  
   const [currentSearch, setSearch] = useState('');
-  const [currentResult, setResult] = useState(null);
-
+  const [currentResult, setResult] = useState({});
+  
+  const handleChange = event => {
+    const search = event.target.value
+    setSearch(search);
+  }
+  
+  useEffect(() => {
+    fetchArtist()
+  }, [currentSearch]);
   
   // WORKS!!!
   const fetchArtist = () => {
@@ -83,21 +89,6 @@ function Analyze() {
   //     })
   // }
 
-  // IS NOT CURRENTLY USED -> HANDLE CHANGE IS, CAN I CHANGE THAT?
-  useEffect(() => {
-    fetchArtist()
-  }, []);
-  
-  
-  function handleChange(e) {
-    const search = e.target.value
-    setSearch(search)
-
-    if (search !== '') {
-      fetchArtist()
-    }
-  }
-
   return (
     <div id="analyze" className="page-body">
       <span className="search-span">
@@ -106,23 +97,12 @@ function Analyze() {
                id="artist-search"
                src={"search_icon"}
                placeholder="Search Artist"
+               value={currentSearch}
                autoComplete="off"
                spellCheck="false"
                onChange={handleChange}
         />
       </span>
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
       <Artist currentResult={currentResult} />
     </div>
   );
