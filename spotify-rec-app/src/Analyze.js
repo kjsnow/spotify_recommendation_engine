@@ -66,7 +66,6 @@ function Analyze() {
     fetchArtist()
   }, [currentSearch]);
   
-  // WORKS!!!
   const fetchArtist = () => {
     fetch('/api/analyze?artist='+currentSearch)
       .then(res => res.json())
