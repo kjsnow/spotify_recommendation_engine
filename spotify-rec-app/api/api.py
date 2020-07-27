@@ -1,4 +1,4 @@
-import time
+from time import time, ctime
 from flask import Flask, request
 from .services.todo_service import ToDoService
 from .models.todo_model import Schema
@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/time')
 def get_current_time():
-    return{'time': time.time()}
+    return{'time': ctime(time())}
 
 @app.route('/api/analyze')
 def artist_search():
