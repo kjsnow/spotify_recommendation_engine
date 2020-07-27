@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Banner from "./Banner";
-import logo from "./logo.svg";
+import logo from "./images/logo.svg";
 
 function Analyze() {
   const [currentResult, setResult] = useState('hi');

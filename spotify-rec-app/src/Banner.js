@@ -1,6 +1,6 @@
 import React from "react";
 //import spotify_logo from './spotify-logo.jpg';
-import spotify_black_background from "./spotify-black-background.png";
+import spotify_black_background from "./images/spotify-black-background.png";
 import { NavLink } from "react-router-dom";
 
 // function BannerBody(props) {
@@ -63,8 +63,12 @@ class Banner extends React.Component {
                Compare
                <span className="spanUnderline"/>
              </NavLink>
-             <NavLink exact activeClassName="current" to='todo' className="nav-tab">
+             <NavLink exact activeClassName="current" to='/todo' className="nav-tab">
                To Do
+               <span className="spanUnderline"/>
+             </NavLink>
+             <NavLink exact activeClassName="current" to='/hold' className="nav-tab">
+               Hold
                <span className="spanUnderline"/>
              </NavLink>
            </nav>
