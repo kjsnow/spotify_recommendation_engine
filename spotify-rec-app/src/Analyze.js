@@ -1,6 +1,12 @@
-import React, { useEffect, useState, handleChange } from "react";
-import logo from "./logo.svg";
-import search_icon from "./search-icon.png";
+import React, {useEffect, useState, handleChange, useReducer} from "react";
+import logo from "./images/logo.svg";
+import search_icon from "./images/search-icon.png";
+import {
+  requestStarted,
+  requestSuccessful,
+  requestFailed,
+} from './actions.js';
+import { reducer } from './reducer.js';
 
 // STORE
 // import { store } from 'react-recollect';
@@ -20,13 +26,13 @@ function Artist(props) {
   // ATTEMPTING TO REPLACE WITH STORE
   //const currentResult = store.searchResults
   
-  if (currentResult?.name) {
+  if (currentResult.data?.name) {
     
-    const genres = currentResult.genres.map((genre, index) =>
+    const genres = currentResult.data.genres.map((genre, index) =>
       <p key={index}> {genre} </p>
     )
     
-    const image_url = currentResult.images[0].url
+    const image_url = currentResult.data.images[0].url
     
     // const images = currentResult.images.map((image, index) =>
     //   <p key={index}> {image} </p>
@@ -34,8 +40,8 @@ function Artist(props) {
     
     return (
       <div>
-        <p>Artist Name: {currentResult.name}</p>
-        <p>Followers: {currentResult.followers}</p>
+        <p>Artist Name: {currentResult.data.name}</p>
+        <p>Followers: {currentResult.data.followers}</p>
         {genres}
         <img src={image_url} />
       </div>
@@ -55,29 +61,47 @@ function Artist(props) {
 function Analyze() {
   
   const [currentSearch, setSearch] = useState('');
-  const [currentResult, setResult] = useState({});
+  //const [currentResult, setResult] = useState({});
+  const [currentResult, dispatch] = useReducer(reducer, {
+    isLoading: true,
+    data: null,
+    error: null,
+  });
   
   const handleChange = event => {
     const search = event.target.value
     setSearch(search);
   }
   
-  useEffect(() => {
-    fetchArtist()
-  }, [currentSearch]);
   
-  const fetchArtist = () => {
-    fetch('/api/analyze?artist='+currentSearch)
-      .then(res => res.json())
-      .then(data => {
-      setResult({
-        name: data.name,
-        followers: data.followers,
-        genres: data.genres,
-        images: data.images,
-      });
-      })
-  }
+  useEffect(() => {
+    
+    const abortController = new AbortController();
+    
+    const fetchArtist = async () => {
+      dispatch(requestStarted());
+      
+      try {
+        fetch('/api/analyze?artist=' + currentSearch, {signal: abortController.signal})
+          .then(res => res.json())
+          .then(data => {
+            dispatch(requestSuccessful({ data }));
+            });
+      } catch (e) {
+        // Only throw error when the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          //console.error(e);
+          dispatch(requestFailed({ error: e.message }));
+        }
+      }
+    };
+    
+    fetchArtist();
+    
+    return () => {
+      abortController.abort();
+    };
+  }, [currentSearch]);
   
   // ATTEMPTING TO REPLACE WITH STORE...
   // const fetchArtist = () => {
