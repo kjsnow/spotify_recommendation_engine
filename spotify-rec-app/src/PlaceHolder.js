@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from './images/logo.svg';
-import './App.css';
+import './styles/App.css';
 import Banner from './Banner';
 
 function PlaceHolder() {

@@ -1,6 +1,6 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
 
 /*@import "tailwindcss/base";*/
 /*@import "tailwindcss/components";*/
@@ -90,14 +90,14 @@
   align-items: center;
   justify-content: center;
   /*font-size: calc(10px + 2vmin);*/
-  color: white;
+  /*color: white;*/
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
 }
 
 .App-link {
-  color: #61dafb;
+  /*color: #61dafb;*/
 }
 
 @keyframes App-logo-spin {
@@ -129,78 +129,69 @@
   -webkit-align-items: flex-start;
 }
 
-.banner {
-  background-color: #20232a;
-  color: #ffffff;
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
+/*.banner {*/
+/*  background-color: #20232a;*/
+/*  !*color: #ffffff;*!*/
+/*  position: fixed;*/
+/*  z-index: 1;*/
+/*  width: 100%;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*}*/
 
-.banner-container {
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-left: auto;
-  margin-right: auto;
-}
+/*.banner-container {*/
+/*  padding-left: 20px;*/
+/*  padding-right: 20px;*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*}*/
 
-.banner-body {
-  /* Crossed out/overwritten:
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  flex-direction: row;
-  align-items: center;
-  height: 60px;
-   */
-  display: flex;
-  height: 60px;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-}
+/*.banner-body {*/
+/*  display: flex;*/
+/*  height: 60px;*/
+/*  -webkit-box-orient: horizontal;*/
+/*  -webkit-box-direction: normal;*/
+/*  -webkit-flex-direction: row;*/
+/*  -webkit-box-align: center;*/
+/*  -webkit-align-items: center;*/
+/*}*/
 
-.banner-title {
-  /* Crossed out/overwritten:
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  align-items: center;
-   */
-  display: flex;
-  margin-right: 10px;
-  height: 100%;
-  color: #61dafb;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-}
+/*.banner-title {*/
+/*  !* Crossed out/overwritten:*/
+/*  display: -webkit-box;*/
+/*  display: -moz-box;*/
+/*  display: -ms-flexbox;*/
+/*  display: -webkit-flex;*/
+/*  align-items: center;*/
+/*   *!*/
+/*  display: flex;*/
+/*  margin-right: 10px;*/
+/*  height: 100%;*/
+/*  !*color: #61dafb;*!*/
+/*  -webkit-box-align: center;*/
+/*  -webkit-align-items: center;*/
+/*}*/
 
-.title {
-  color: inherit;
-  margin-left: 10px;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 20px;
-}
+/*.title {*/
+/*  color: inherit;*/
+/*  margin-left: 10px;*/
+/*  font-weight: 700;*/
+/*  font-size: 20px;*/
+/*  line-height: 20px;*/
+/*}*/
 
-.banner-nav {
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-  height: 100%;
-  -webkit-flex: 1;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-}
+/*.banner-nav {*/
+/*  display: flex;*/
+/*  overflow-x: auto;*/
+/*  overflow-y: hidden;*/
+/*  height: 100%;*/
+/*  -webkit-flex: 1;*/
+/*  -webkit-box-orient: horizontal;*/
+/*  -webkit-box-direction: normal;*/
+/*  -webkit-flex-direction: row;*/
+/*  -webkit-box-align: stretch;*/
+/*  -webkit-align-items: stretch;*/
+/*}*/
 
 /*.nav-tab {*/
 /*  display: flex;*/
@@ -216,55 +207,55 @@
 /*  -webkit-transition: color 0.2s ease-out;*/
 /*}*/
 
-.nav-tab {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: #ffffff;
-  transition: color 0.2s ease-out;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: 300;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -webkit-transition: color 0.2s ease-out;
-  -moz-transition: color 0.2s ease-out;
-}
+/*.nav-tab {*/
+/*  display: -webkit-box;*/
+/*  display: -moz-box;*/
+/*  display: -ms-flexbox;*/
+/*  display: -webkit-flex;*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  align-items: center;*/
+/*  !*color: #ffffff;*!*/
+/*  transition: color 0.2s ease-out;*/
+/*  padding-left: 15px;*/
+/*  padding-right: 15px;*/
+/*  font-weight: 300;*/
+/*  -webkit-box-orient: horizontal;*/
+/*  -webkit-box-direction: normal;*/
+/*  -webkit-flex-direction: row;*/
+/*  -webkit-box-align: center;*/
+/*  -webkit-align-items: center;*/
+/*  -webkit-transition: color 0.2s ease-out;*/
+/*  -moz-transition: color 0.2s ease-out;*/
+/*}*/
 
-.current {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: #61dafb;
-  transition: color 0.2s ease-out;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-weight: 300;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -webkit-transition: color 0.2s ease-out;
-}
+/*.current {*/
+/*  display: -webkit-box;*/
+/*  display: -moz-box;*/
+/*  display: -ms-flexbox;*/
+/*  display: -webkit-flex;*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  align-items: center;*/
+/*  !*color: #61dafb;*!*/
+/*  transition: color 0.2s ease-out;*/
+/*  padding-left: 15px;*/
+/*  padding-right: 15px;*/
+/*  font-weight: 300;*/
+/*  -webkit-box-orient: horizontal;*/
+/*  -webkit-box-direction: normal;*/
+/*  -webkit-flex-direction: row;*/
+/*  -webkit-box-align: center;*/
+/*  -webkit-align-items: center;*/
+/*  -webkit-transition: color 0.2s ease-out;*/
+/*}*/
 
 .spanUnderline {
   display: none;
   position: absolute;
   bottom: -1px;
   height: 4px;
-  background: #61dafb;
+  /*background: #61dafb;*/
   left: 0;
   right: 0;
   z-index: 1;
@@ -369,7 +360,7 @@
   width: 100%;
   background: transparent;
   border: 0;
-  color: #ffffff;
+  /*color: #ffffff;*/
   font-size: 18px;
   font-weight: 300;
   font-family: inherit;

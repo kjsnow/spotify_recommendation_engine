@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './styles.css';
 import Banner from './Banner';
 import Main from './Main';
 
