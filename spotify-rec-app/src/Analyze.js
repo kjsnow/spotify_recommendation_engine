@@ -1,6 +1,10 @@
-import React, { useEffect, useState, handleChange } from "react";
-import logo from "./logo.svg";
-import search_icon from "./search-icon.png";
+import React, { useEffect, useState, handleChange, useReducer } from "react";
+import logo from "./images/logo.svg";
+import search_icon from "./images/search-icon.png";
+import { requestStarted, requestSuccessful, requestFailed } from "./actions.js";
+import { reducer } from "./reducer.js";
+
+//import useSWR from 'swr'
 
 // STORE
 // import { store } from 'react-recollect';
@@ -15,70 +19,84 @@ import search_icon from "./search-icon.png";
 //   };
 
 function Artist(props) {
-  const currentResult = props.currentResult
-  
+  const currentResult = props.currentResult;
+
   // ATTEMPTING TO REPLACE WITH STORE
   //const currentResult = store.searchResults
-  
-  if (currentResult?.name) {
-    
-    const genres = currentResult.genres.map((genre, index) =>
+
+  if (currentResult.data?.name) {
+    const genres = currentResult.data.genres.map((genre, index) => (
       <p key={index}> {genre} </p>
-    )
-    
-    const image_url = currentResult.images[0].url
-    
+    ));
+
+    const image_url = currentResult.data.images[0].url;
+
     // const images = currentResult.images.map((image, index) =>
     //   <p key={index}> {image} </p>
     // )
-    
+
     return (
       <div>
-        <p>Artist Name: {currentResult.name}</p>
-        <p>Followers: {currentResult.followers}</p>
+        <p>Artist Name: {currentResult.data.name}</p>
+        <p>Followers: {currentResult.data.followers}</p>
         {genres}
         <img src={image_url} />
       </div>
-
-      )
+    );
   } else {
-    return(
+    return (
       <div>
         <p>No artist entered.</p>
         <img src={logo} className="App-logo" alt="logo" />
       </div>
-    )
+    );
   }
 }
 
-
 function Analyze() {
-  
-  const [currentSearch, setSearch] = useState('');
-  const [currentResult, setResult] = useState({});
-  
-  const handleChange = event => {
-    const search = event.target.value
+  const [currentSearch, setSearch] = useState("");
+  //const [currentResult, setResult] = useState({});
+  const [currentResult, dispatch] = useReducer(reducer, {
+    isLoading: true,
+    data: null,
+    error: null,
+  });
+
+  const handleChange = (event) => {
+    const search = event.target.value;
     setSearch(search);
-  }
-  
+  };
+
   useEffect(() => {
-    fetchArtist()
+    const abortController = new AbortController();
+
+    const fetchArtist = async () => {
+      dispatch(requestStarted());
+
+      try {
+        fetch("/api/analyze?artist=" + currentSearch, {
+          signal: abortController.signal,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            dispatch(requestSuccessful({ data }));
+          });
+      } catch (e) {
+        // Only throw error when the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          //console.error(e);
+          dispatch(requestFailed({ error: e.message }));
+        }
+      }
+    };
+
+    fetchArtist();
+
+    return () => {
+      abortController.abort();
+    };
   }, [currentSearch]);
-  
-  const fetchArtist = () => {
-    fetch('/api/analyze?artist='+currentSearch)
-      .then(res => res.json())
-      .then(data => {
-      setResult({
-        name: data.name,
-        followers: data.followers,
-        genres: data.genres,
-        images: data.images,
-      });
-      })
-  }
-  
+
   // ATTEMPTING TO REPLACE WITH STORE...
   // const fetchArtist = () => {
   //   fetch('/api/analyze?artist='+currentSearch)
@@ -91,21 +109,33 @@ function Analyze() {
   return (
     <div id="analyze" className="page-body">
       <span className="search-span">
-        <input type="search"
-               className="search-box"
-               id="artist-search"
-               src={"search_icon"}
-               placeholder="Search Artist"
-               value={currentSearch}
-               autoComplete="off"
-               spellCheck="false"
-               onChange={handleChange}
+        <input
+          className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+          type="search"
+          id="artist-search"
+          placeholder="Search Artist"
+          src={"search_icon"}
+          value={currentSearch}
+          autoComplete="off"
+          spellCheck="false"
+          onChange={handleChange}
         />
+
+        {/*<input*/}
+        {/*  type="search"*/}
+        {/*  className="search-box"*/}
+        {/*  id="artist-search"*/}
+        {/*  src={"search_icon"}*/}
+        {/*  placeholder="Search Artist"*/}
+        {/*  value={currentSearch}*/}
+        {/*  autoComplete="off"*/}
+        {/*  spellCheck="false"*/}
+        {/*  onChange={handleChange}*/}
+        {/*/>*/}
       </span>
       <Artist currentResult={currentResult} />
     </div>
   );
-};
-
+}
 
 export default Analyze;
