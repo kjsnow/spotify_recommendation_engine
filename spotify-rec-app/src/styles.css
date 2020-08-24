@@ -14501,12 +14501,17 @@ video {
   padding: 0;
 }
 
-.img {
-  display: inline-block;
-  vertical-align: top;
-  border-style: none;
-  height: 20px;
-}
+/*.img {*/
+
+/*  display: inline-block;*/
+
+/*  vertical-align: top;*/
+
+/*  border-style: none;*/
+
+/*  height: 20px;*/
+
+/*}*/
 
 .App {
   text-align: center;
@@ -14894,33 +14899,57 @@ video {
   }
 }
 
-.search-span {
-  position: relative;
-  display: inline-block;
-  direction: ltr;
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-}
+/*.search-span {*/
 
-.search-box {
-  position: relative;
-  vertical-align: top;
-  width: 100%;
-  background: transparent;
-  border: 0;
-  /*color: #ffffff;*/
-  font-size: 18px;
-  font-weight: 300;
-  font-family: inherit;
-  padding: 4px 4px 4px 29px;
-  background-image: ;
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  background-position-y: center;
-  background-position-x: 4px;
-  -webkit-appearance: none;
-}
+/*  position: relative;*/
+
+/*  display: inline-block;*/
+
+/*  direction: ltr;*/
+
+/*  box-sizing: inherit;*/
+
+/*  margin: 0;*/
+
+/*  padding: 0;*/
+
+/*}*/
+
+/*.search-box {*/
+
+/*  position: relative;*/
+
+/*  vertical-align: top;*/
+
+/*  width: 100%;*/
+
+/*  background: transparent;*/
+
+/*  border: 0;*/
+
+/*  !*color: #ffffff;*!*/
+
+/*  font-size: 18px;*/
+
+/*  font-weight: 300;*/
+
+/*  font-family: inherit;*/
+
+/*  padding: 4px 4px 4px 29px;*/
+
+/*  background-image: ;*/
+
+/*  background-size: 16px 16px;*/
+
+/*  background-repeat: no-repeat;*/
+
+/*  background-position-y: center;*/
+
+/*  background-position-x: 4px;*/
+
+/*  -webkit-appearance: none;*/
+
+/*}*/
 
 .spotify-logo {
   height: 30px;

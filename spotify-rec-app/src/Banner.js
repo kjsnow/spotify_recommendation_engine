@@ -1,15 +1,86 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-import initials from './images/ks_initials.svg'
+// IMAGES
+
+import { GitCircleLogo, LinkedInCircleLogo, EmailLogo } from "./images/banner-logos"
 import spotify_black_background from "./images/spotify-black-background.png";
 //import kyle from "./images/kyle-bowtie.jpg";
 import headshot from "./images/kyle_square_headshot_black&white.jpg"
-import { NavLink } from "react-router-dom";
 
+// THEMES
 import resolveConfig from "tailwindcss/resolveConfig"
 import config from "./tailwind.config"
 const tailwindConfig = resolveConfig(config)
 const theme_colors = tailwindConfig.theme.colors
+
+
+
+
+function NavBar() {
+  return (
+    <div className="w-full block flex-grow items-center lg:flex lg:w-auto m-4">
+      <div className="text-sm lg:flex-grow">
+        <a href="/home"
+           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+          Home
+        </a>
+        <a href="/analyze"
+           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+          Analyze
+        </a>
+        <a href="/compare"
+           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+          Compare
+        </a>
+        <a href="/todo"
+           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+          To Do
+        </a>
+        <a href="/hold"
+           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
+          Hold
+        </a>
+      </div>
+      <div className="flex">
+        <a className="p-1" href="https://github.com/kjsnow" target="_blank">
+          <GitCircleLogo/>
+        </a>
+        <a className="p-1" href="https://www.linkedin.com/in/snowkyle/" target="_blank">
+          <LinkedInCircleLogo/>
+        </a>
+        <a className="p-1" href="mailto: kjsnow11@gmail.com" target="_blank">
+          <EmailLogo/>
+        </a>
+        {/*<a href="#"*/}
+        {/*   className="inline-block text-sm px-4 py-2 leading-none border rounded border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">*/}
+        {/*  Download*/}
+        {/*</a>*/}
+      </div>
+    </div>
+  )
+}
+
+function Banner() {
+  return (
+    <nav className="flex w-full flex-wrap items-center" style={{backgroundColor: theme_colors.c4, color: theme_colors.c1}}>
+      <div className="flex flex-shrink-0 items-center">
+        <img src={headshot} className="rounded-full p-4 h-12 w-12" viewBox="0 0 12 12"  />
+        <span className="font-semibold text-xl p-2 tracking-tight">Kyle Snow</span>
+      </div>
+      <div className="block lg:hidden">
+        <button
+          className="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+          <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
+      </div>
+      <NavBar/>
+    </nav>
+  )
+}
 
 // class Banner extends React.Component {
 //
@@ -79,66 +150,5 @@ const theme_colors = tailwindConfig.theme.colors
 //   };
 //
 // };
-
-function NavBar() {
-  return (
-    <div className="w-full block flex-grow lg:flex lg:w-auto mr-4" style={{color: theme_colors.text_secondary}}>
-      <div className="text-sm lg:flex-grow">
-        <a href="/home"
-           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
-          Home
-        </a>
-        <a href="/analyze"
-           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
-          Analyze
-        </a>
-        <a href="/compare"
-           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
-          Compare
-        </a>
-        <a href="/todo"
-           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
-          To Do
-        </a>
-        <a href="/hold"
-           className="block mt-4 lg:inline-block lg:mt-0 hover:text-white mr-4">
-          Hold
-        </a>
-      </div>
-      <div>
-        <a href="#"
-           className="inline-block text-sm px-4 py-2 leading-none border rounded border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
-          Download
-        </a>
-      </div>
-    </div>
-  )
-}
-
-function Banner() {
-  return (
-    <nav className="flex w-full flex-wrap p-4 items-center" style={{backgroundColor: theme_colors.primary}}>
-      <div className="flex flex-shrink-0 pl-4 items-center">
-        {/*<svg className="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54"*/}
-        {/*     xmlns="http://www.w3.org/2000/svg">*/}
-        {/*  <path*/}
-        {/*    d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/>*/}
-        {/*</svg>*/}
-        <img src={headshot} className="rounded-full mr-2" width="60" height="60" />
-        <span className="font-semibold text-xl tracking-tight" style={{color: theme_colors.text_secondary}}>Kyle Snow</span>
-      </div>
-      <div className="block lg:hidden">
-        <button
-          className="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-          <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
-          </svg>
-        </button>
-      </div>
-      <NavBar/>
-    </nav>
-  )
-}
 
 export default Banner

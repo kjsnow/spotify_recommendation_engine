@@ -6,7 +6,7 @@ import './styles.css'
 
 function HeadShot() {
   return (
-    <div className="absolute flex text-gray-300" id="head-shot-container">
+    <div className="flex" id="head-shot-container">
       <img className="p-4 rounded-full" src={kyle} alt="head-shot" />
       <p className="">
         Welcome! Take a look at my bio and resume

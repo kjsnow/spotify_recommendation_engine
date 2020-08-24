@@ -1,37 +1,44 @@
 const THEMES = {
   cool_fresh: {
-    text_secondary: "#05386b",
-    accent_dark: "#379683",
-    primary: "#5cdb95",
-    accent_light: "#8ee4af",
-    text_primary: "#edf5e1"
-  }
+    c5: "#05386b",
+    c4: "#379683",
+    c3: "#5cdb95",
+    c2: "#8ee4af",
+    c1: "#edf5e1"
+  },
+  something_else: {
+      text_secondary: "#05386b",
+      accent_dark: "#379683",
+      primary: "orange",
+      accent_light: "#8ee4af",
+      text_primary: "#edf5e1"
+    }
 }
 
 // ENTER THEME NAME HERE:
 const THEME = THEMES.cool_fresh
 
-const COLORS = {
-  PRIMARY: THEME.primary,
-  TEXT_PRIMARY: THEME.text_primary,
-  TEXT_SECONDARY: THEME.text_secondary,
-  ACCENT_DARK: THEME.accent_dark,
-  ACCENT_LIGHT: THEME.accent_light
-}
-
 module.exports = {
   purge: [],
   theme: {
     colors: {
-      text_secondary: COLORS.TEXT_SECONDARY,
-      accent_dark: COLORS.ACCENT_DARK,
-      primary: COLORS.PRIMARY,
-      accent_light: COLORS.ACCENT_LIGHT,
-      text_primary: COLORS.TEXT_PRIMARY
+      c1: THEME.c1,
+      c2: THEME.c2,
+      c3: THEME.c3,
+      c4: THEME.c4,
+      c5: THEME.c5
+    },
+    fill: {
+    
     }
   },
-  extend: {},
+  extend: {
+    animation: {
+      'spin-slow': 'spin 3s linear infinite',
+    }
+  },
   variants: {
-    text: ['responsive', 'hover', 'focus', 'active', 'group-hover']
+    text: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    animation: ['responsive', 'motion-safe', 'motion-reduce']
   }
 }
