@@ -43,10 +43,24 @@ function Artist(props) {
 
     return (
       <div className="relative m-4 border border-gray-300 rounded-lg">
-        <img className="h-56 w-56 p-2" viewBox="0 0 30 30" src={image_url} />
-        <p>Artist Name: {currentResult.data.name}</p>
-        <p>Followers: {currentResult.data.followers}</p>
-        Genres: {genres}
+        <img className="inline-block h-56 w-56 p-2" viewBox="0 0 30 30" src={image_url} style={{backgroundColor: theme_colors.c1}} />
+        <table className="table-auto" style={{backgroundColor: theme_colors.c3, color: theme_colors.c5}}>
+          <tr>
+            <th className="border px-4 py-2"> Artist Name: </th>
+            <td className="border px-4 py-2"> {currentResult.data.name} </td>
+          </tr>
+          <tr>
+            <th className="border px-4 py-2"> Followers: </th>
+            <td className="border px-4 py-2"> {currentResult.data.followers} </td>
+          </tr>
+          <tr>
+            <th className="border px-4 py-2 align-text-top"> Genres: </th>
+            <td className="border px-4 py-2"> {genres} </td>
+          </tr>
+        </table>
+        {/*<p>Artist Name: {currentResult.data.name}</p>*/}
+        {/*<p>Followers: {currentResult.data.followers}</p>*/}
+        {/*Genres: {genres}*/}
       </div>
     );
   } else {

@@ -14522,6 +14522,7 @@ video {
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  justify-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
