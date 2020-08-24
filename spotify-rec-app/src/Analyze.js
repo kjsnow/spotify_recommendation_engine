@@ -4,6 +4,12 @@ import search_icon from "./images/search-icon.png";
 import { requestStarted, requestSuccessful, requestFailed } from "./actions.js";
 import { reducer } from "./reducer.js";
 
+// THEMES
+import resolveConfig from "tailwindcss/resolveConfig"
+import config from "./tailwind.config"
+const tailwindConfig = resolveConfig(config)
+const theme_colors = tailwindConfig.theme.colors
+
 //import useSWR from 'swr'
 
 // STORE
@@ -36,16 +42,16 @@ function Artist(props) {
     // )
 
     return (
-      <div>
+      <div className="relative m-4 border border-gray-300 rounded-lg">
+        <img className="h-56 w-56 p-2" viewBox="0 0 30 30" src={image_url} />
         <p>Artist Name: {currentResult.data.name}</p>
         <p>Followers: {currentResult.data.followers}</p>
-        {genres}
-        <img src={image_url} />
+        Genres: {genres}
       </div>
     );
   } else {
     return (
-      <div>
+      <div className="relative pt-4">
         <p>No artist entered.</p>
         <img src={logo} className="App-logo" alt="logo" />
       </div>
@@ -107,10 +113,11 @@ function Analyze() {
   // }
 
   return (
-    <div id="analyze" className="page-body">
-      <span className="search-span">
+    <div className="inline-block p-4" id="analyze">
+      <span className=" pl-4 left-0 inline-block">
         <input
-          className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+          className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal"
+          style={{color:theme_colors.c5}}
           type="search"
           id="artist-search"
           placeholder="Search Artist"
