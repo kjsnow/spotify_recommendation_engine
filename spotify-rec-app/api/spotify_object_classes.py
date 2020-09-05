@@ -25,17 +25,35 @@ def get_search_uri(search_term, search_type):
     return result[search_type+'s']['items'][0]['id']
 
 
-class Spotify_Object():
+class SpotifyObject:
 
-    def __init__(self, search_term, type, limit=1):
+    def __init__(self, search_term=None, search_uri=None, search_id=None, type=None, limit=1):
         self._search_term    = search_term
+        self._search_uri     = search_uri
+        self._search_id      = search_id
+        self.VALID_TYPES     = ['artist', 'track', 'album']
+        if type not in self.VALID_TYPES:
+            raise ValueError(f'type must be one of: {self.VALID_TYPES}')
         self._type           = type
         self._limit          = limit
 
     @property
     def spotify_object(self):
         #return self._spotify_object
-        return sp.search(q=self._search_term, type=self._type, limit=self._limit)
+        # First try uri/id before generic search
+        if self._search_uri or self._search_id:
+            unique_id = self._search_uri or self._search_id
+            if self._type == 'artist':
+                return sp.artist(unique_id)
+            elif self._type == 'track':
+                return sp.track(unique_id)
+            elif self._type == 'album':
+                return sp.album(unique_id)
+        elif self._search_term:
+            search_result = sp.search(q=self._search_term, type=self._type, limit=self._limit)
+            return search_result[self._type + 's']['items'][0]
+        else:
+            raise ValueError('Must Supply a uri, id, or search term.')
 
     #@spotify_object.setter
     #def spotify_object(self):
@@ -47,7 +65,8 @@ class Spotify_Object():
 
     # getters
     def get_attribute(self, attribute_name):
-        items = self.spotify_object[self._type + 's']['items'][0][attribute_name]
+        #items = self.spotify_object[self._type + 's']['items'][0][attribute_name]
+        items = self.spotify_object[attribute_name]
         if attribute_name == 'followers':
             return items['total']
         elif attribute_name == 'external_urls':
@@ -62,67 +81,164 @@ class Spotify_Object():
             return items
 
 
-class Artist(Spotify_Object):
+class Artist(SpotifyObject):
 
-    def __init__(self, search_artist_name, limit=1):
-        self._search_term    = search_artist_name
-        self._type           = 'artist'
-        self._limit          = limit
-        #self.spotify_object = self.get_spotify_object()
-        #self.artist_name    = self.get_attribute(attribute_name='name')
-        self._name           = self.get_attribute(attribute_name='name')
-        self.external_urls   = self.get_attribute(attribute_name='external_urls')
-        self._followers      = self.get_attribute(attribute_name='followers')
-        self._genres          = self.get_attribute(attribute_name='genres')
-        self.href            = self.get_attribute(attribute_name='href')
-        self.id              = self.get_attribute(attribute_name='id')
-        self._images          = self.get_attribute(attribute_name='images')
-        self.uri             = self.get_attribute(attribute_name='uri')
+    def __init__(self, search_term=None, search_uri=None, search_id=None):
+        super().__init__(search_term=search_term, search_uri=search_uri, search_id=search_id, type='artist')
+        # self.uri             = self.get_attribute(attribute_name='uri')
+        # self.id              = self.get_attribute(attribute_name='id')
+        # #self._type           = 'artist'
+        # self._limit          = limit
+        # #self.spotify_object = self.get_spotify_object()
+        # #self.artist_name    = self.get_attribute(attribute_name='name')
+        # self._name           = self.get_attribute(attribute_name='name')
+        # self.external_urls   = self.get_attribute(attribute_name='external_urls')
+        # self._followers      = self.get_attribute(attribute_name='followers')
+        # self._genres         = self.get_attribute(attribute_name='genres')
+        # self.href            = self.get_attribute(attribute_name='href')
+        # self._images         = self.get_attribute(attribute_name='images')
+
+    @property
+    def uri(self):
+        return self.get_attribute(attribute_name='uri')
+
+    @property
+    def id(self):
+        return self.get_attribute(attribute_name='id')
+
+    @property
+    def _name(self):
+        return self.get_attribute(attribute_name='name')
+
+    @property
+    def external_urls(self):
+        return self.get_attribute(attribute_name='external_urls')
+
+    @property
+    def followers(self):
+        return self.get_attribute(attribute_name='followers')
+
+    @property
+    def genres(self):
+        return self.get_attribute(attribute_name='genres')
+
+    @property
+    def href(self):
+        return self.get_attribute(attribute_name='href')
 
     @property
     def artist_name(self):
         return self._name
 
     @property
-    def followers(self):
-        return self._followers
-
-    @property
-    def genres(self):
-        return self._genres
-
-    @property
     def images(self):
-        return self._images
+        return self.get_attribute(attribute_name='images')
 
     def print_id(self):
         print(self.id)
 
+    # RETURNS JUST TRACK NAME, RETURN TRACK OBJECTS INSTEAD AND PARSE OUT LATER...
+    def top_tracks(self):
+        tracks = sp.artist_top_tracks(self.uri)
+        tracks_list = tracks['tracks']
+        top_tracks = [Track(search_uri=track['uri']).track_name for track in tracks_list]
+        return top_tracks
 
-class Track(Spotify_Object):
+    # def print_top_track_names(self):
+    #     for track in self.top_tracks():
+    #         print(track.track_name)
 
-    def __init__(self, track_name, limit=1):
-        self.search_term       = track_name
-        self.type              = 'track'
-        self.limit             = limit
-        self.spotify_object    = self.get_spotify_object()
-        self.track_name        = self.get_attribute(attribute_name='name')
-        self.album             = self.get_attribute(attribute_name='album')
-        self.artists           = self.get_attribute(attribute_name='artists')
-        self.available_markets = self.get_attribute(attribute_name='available_markets')
-        self.disc_number       = self.get_attribute(attribute_name='disc_number')
-        self.duration_ms       = self.get_attribute(attribute_name='duration_ms')
-        self.explicit          = self.get_attribute(attribute_name='explicit')
-        self.external_ids      = self.get_attribute(attribute_name='external_ids')
-        self.external_urls     = self.get_attribute(attribute_name='external_urls')
-        self.href              = self.get_attribute(attribute_name='href')
-        self.id                = self.get_attribute(attribute_name='id')
-        self.is_local          = self.get_attribute(attribute_name='is_local')
-        self.popularity        = self.get_attribute(attribute_name='popularity')
-        self.preview_url       = self.get_attribute(attribute_name='preview_url')
-        self.track_number      = self.get_attribute(attribute_name='track_number')
-        self.uri               = self.get_attribute(attribute_name='uri')
-        self.features          = self.get_features()
+
+class Track(SpotifyObject):
+
+    def __init__(self, search_term=None, search_uri=None, search_id=None):
+        super().__init__(search_term=search_term, search_uri=search_uri, search_id=search_id, type='track')
+        # self._search_term       = track_name
+        # self._type              = 'track'
+        # self._limit             = limit
+        # #self.spotify_object    = self.spotify_object()
+        # self.track_name        = self.get_attribute(attribute_name='name')
+        # self.album             = self.get_attribute(attribute_name='album')
+        # self.artists           = self.get_attribute(attribute_name='artists')
+        # self.available_markets = self.get_attribute(attribute_name='available_markets')
+        # self.disc_number       = self.get_attribute(attribute_name='disc_number')
+        # self.duration_ms       = self.get_attribute(attribute_name='duration_ms')
+        # self.explicit          = self.get_attribute(attribute_name='explicit')
+        # self.external_ids      = self.get_attribute(attribute_name='external_ids')
+        # self.external_urls     = self.get_attribute(attribute_name='external_urls')
+        # self.href              = self.get_attribute(attribute_name='href')
+        # self.id                = self.get_attribute(attribute_name='id')
+        # self.is_local          = self.get_attribute(attribute_name='is_local')
+        # self.popularity        = self.get_attribute(attribute_name='popularity')
+        # self.preview_url       = self.get_attribute(attribute_name='preview_url')
+        # self.track_number      = self.get_attribute(attribute_name='track_number')
+        # self.uri               = self.get_attribute(attribute_name='uri')
+        # self.features          = self.get_features()
+
+    @property
+    def uri(self):
+        return self.get_attribute(attribute_name='uri')
+
+    @property
+    def id(self):
+        return self.get_attribute(attribute_name='id')
+
+    @property
+    def track_name(self):
+        return self.get_attribute(attribute_name='name')
+
+    @property
+    def album(self):
+        return self.get_attribute(attribute_name='album')
+
+    @property
+    def artists(self):
+        return self.get_attribute(attribute_name='artists')
+
+    @property
+    def available_markets(self):
+        return self.get_attribute(attribute_name='available_markets')
+
+    @property
+    def disc_number(self):
+        return self.get_attribute(attribute_name='disc_number')
+
+    @property
+    def duration_ms(self):
+        return self.get_attribute(attribute_name='duration_ms')
+
+    @property
+    def explicit(self):
+        return self.get_attribute(attribute_name='explicit')
+
+    @property
+    def external_ids(self):
+        return self.get_attribute(attribute_name='external_ids')
+
+    @property
+    def external_urls(self):
+        return self.get_attribute(attribute_name='external_urls')
+
+    @property
+    def href(self):
+        return self.get_attribute(attribute_name='href')
+
+    @property
+    def is_local(self):
+        return self.get_attribute(attribute_name='is_local')
+
+    # BUG
+    @property
+    def popularity(self):
+        return self.get_attribute(attribute_name='popularity')
+
+    @property
+    def preview_url(self):
+        return self.get_attribute(attribute_name='preview_url')
+
+    @property
+    def track_number(self):
+        return self.get_attribute(attribute_name='track_number')
 
     # getters
     def get_features(self):
@@ -142,18 +258,18 @@ class Track(Spotify_Object):
             'tempo',
             'time_signature',
             'valence']
-        track_audio_features = sp.audio_features(self.uri)
+        track_audio_features = sp.audio_features([self.uri])
         return {k: track_audio_features[0][k] for k in features_of_interest}
 
 
 
-class Album(Spotify_Object):
+class Album(SpotifyObject):
 
     def __init__(self, album_name, limit=1):
-        self.search_term            = album_name
-        self.type                   = 'album'
-        self.limit                  = limit
-        self.spotify_object         = self.get_spotify_object()
+        self._search_term            = album_name
+        self._type                   = 'album'
+        self._limit                  = limit
+        #self.spotify_object         = self.get_spotify_object()
         self.album_name             = self.get_attribute(attribute_name='name')
         self.album_type             = self.get_attribute(attribute_name='album_type')
         self.artists                = self.get_attribute(attribute_name='artists')
