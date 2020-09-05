@@ -34,6 +34,10 @@ function Artist(props) {
     const genres = currentResult.data.genres.map((genre, index) => (
       <p key={index}> {genre} </p>
     ));
+    
+    const top_track_names = currentResult.data.top_tracks.map((track_name, index) => (
+      <p key={index}> {track_name} </p>
+    ));
 
     const image_url = currentResult.data.images[0].url;
 
@@ -56,6 +60,10 @@ function Artist(props) {
           <tr>
             <th className="border px-4 py-2 align-text-top"> Genres: </th>
             <td className="border px-4 py-2"> {genres} </td>
+          </tr>
+          <tr>
+            <th className="border px-4 py-2 align-text-top"> Top 10 Tracks: </th>
+            <td className="border px-4 py-2"> {top_track_names} </td>
           </tr>
         </table>
         {/*<p>Artist Name: {currentResult.data.name}</p>*/}
