@@ -5,7 +5,7 @@ from .models.todo_model import Schema
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 import spotipy.util as util
-from .spotify_object_classes import Spotify_Object, Artist
+from .spotify_object_classes import SpotifyObject, Artist
 from .config import config as c
 
 app = Flask(__name__)
@@ -34,6 +34,7 @@ def artist_search():
             'followers': search_result.followers,
             'genres': search_result.genres,
             'images': search_result.images,
+            'top_tracks': search_result.top_tracks(),
             }
 
 
