@@ -3,6 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=pycharm+all,jupyternotebooks
 
 */app-env/*
+app-env/
 
 # Pycache files
 *.pyc
