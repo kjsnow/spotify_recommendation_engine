@@ -10,60 +10,46 @@ import config from "./tailwind.config"
 const tailwindConfig = resolveConfig(config)
 const theme_colors = tailwindConfig.theme.colors
 
-//import useSWR from 'swr'
-
-// STORE
-// import { store } from 'react-recollect';
-//
-// const storedData = JSON.parse(localStorage.getItem('store'));
-// store.searchResults = storedData
-//   ? storedData.searchResults
-//   : {
-//     name: null,
-//     followers: null,
-//     genres: null,
-//   };
-
-function Artist(props) {
-  const currentResult = props.currentResult;
+function Track(props) {
+  const currentResult = props.currentResult.data;
 
   // ATTEMPTING TO REPLACE WITH STORE
   //const currentResult = store.searchResults
 
-  if (currentResult.data?.name) {
-    const genres = currentResult.data.genres.map((genre, index) => (
-      <p key={index}> {genre} </p>
-    ));
+  if (currentResult?.track_name) {
+    // const artists = currentResult.data.artists.map((artist, index) => (
+    //   <p key={index}> {artist} </p>
+    // ));
     
-    const top_track_names = currentResult.data.top_tracks.map((track, index) => (
-      <p key={index}> {track.name} </p>
-    ));
-
-    const image_url = currentResult.data.images[0].url;
-
-    // const images = currentResult.images.map((image, index) =>
-    //   <p key={index}> {image} </p>
-    // )
-
+    const popularity = currentResult.popularity;
+    const preview_url = currentResult.preview_url;
+    // const features = currentResult.features.map((feature, index) => (
+    //   <p key={index}> {feature} </p>
+    // ))
+    const features = Object.entries(currentResult.features).map(([key, value]) => (
+      <p key={key}>{key}: {value}</p>
+    ))
+    
     return (
       <div className="relative m-4 border border-gray-300 rounded-lg">
-        <img className="inline-block h-56 w-56 p-2" viewBox="0 0 30 30" src={image_url} style={{backgroundColor: theme_colors.c1}} />
+        {/*<img className="inline-block h-56 w-56 p-2" viewBox="0 0 30 30" src={image_url} style={{backgroundColor: theme_colors.c1}} />*/}
         <table className="table-auto" style={{backgroundColor: theme_colors.c3, color: theme_colors.c5}}>
           <tr>
-            <th className="border px-4 py-2"> Artist Name: </th>
-            <td className="border px-4 py-2"> {currentResult.data.name} </td>
+            <th className="border px-4 py-2"> Track Name: </th>
+            <td className="border px-4 py-2">
+              <a href={preview_url}>{currentResult.track_name}</a> </td>
           </tr>
+          {/*<tr>*/}
+          {/*  <th className="border px-4 py-2"> Artists: </th>*/}
+          {/*  <td className="border px-4 py-2"> {currentResult.data.followers} </td>*/}
+          {/*</tr>*/}
+          {/*<tr>*/}
+          {/*  <th className="border px-4 py-2 align-text-top"> Popularity: </th>*/}
+          {/*  <td className="border px-4 py-2 text-left"> {popularity} </td>*/}
+          {/*</tr>*/}
           <tr>
-            <th className="border px-4 py-2"> Followers: </th>
-            <td className="border px-4 py-2"> {currentResult.data.followers} </td>
-          </tr>
-          <tr>
-            <th className="border px-4 py-2 align-text-top"> Genres: </th>
-            <td className="border px-4 py-2 text-left"> {genres} </td>
-          </tr>
-          <tr>
-            <th className="border px-4 py-2 align-text-top"> Top 10 Tracks: </th>
-            <td className="border px-4 py-2 text-left"> {top_track_names} </td>
+            <th className="border px-4 py-2 align-text-top"> Features: </th>
+            <td className="border px-4 py-2 text-left"> {features} </td>
           </tr>
         </table>
         {/*<p>Artist Name: {currentResult.data.name}</p>*/}
@@ -74,14 +60,14 @@ function Artist(props) {
   } else {
     return (
       <div className="relative pt-4">
-        <p>No artist entered.</p>
+        <p>No track entered.</p>
         <img src={logo} className="App-logo" alt="logo" />
       </div>
     );
   }
 }
 
-function Analyze() {
+function Compare() {
   const [currentSearch, setSearch] = useState("");
   //const [currentResult, setResult] = useState({});
   const [currentResult, dispatch] = useReducer(reducer, {
@@ -98,11 +84,11 @@ function Analyze() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    const fetchArtist = async () => {
+    const fetchTrack = async () => {
       dispatch(requestStarted());
 
       try {
-        fetch("/api/search_artist?artist=" + currentSearch, {
+        fetch("/api/search_track?track=" + currentSearch, {
           signal: abortController.signal,
         })
           .then((res) => res.json())
@@ -118,7 +104,7 @@ function Analyze() {
       }
     };
 
-    fetchArtist();
+    fetchTrack();
 
     return () => {
       abortController.abort();
@@ -141,8 +127,8 @@ function Analyze() {
           className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal"
           style={{color:theme_colors.c5}}
           type="search"
-          id="artist-search"
-          placeholder="Search Artist"
+          id="track-search"
+          placeholder="Search Track"
           src={"search_icon"}
           value={currentSearch}
           autoComplete="off"
@@ -162,9 +148,9 @@ function Analyze() {
         {/*  onChange={handleChange}*/}
         {/*/>*/}
       </span>
-      <Artist currentResult={currentResult} />
+      <Track currentResult={currentResult} />
     </div>
   );
 }
 
-export default Analyze;
+export default Compare;
